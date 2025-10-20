@@ -1,0 +1,384 @@
+{
+  "info": {
+    "name": "String Analysis API",
+    "description": "Collection for testing the String Analysis RESTful API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Create String - Palindrome",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": \"racecar\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/strings/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""]
+        },
+        "description": "Create a palindromic string. Should return 201 Created."
+      }
+    },
+    {
+      "name": "2. Create String - Non-Palindrome",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": \"hello world\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/strings/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""]
+        },
+        "description": "Create a non-palindromic string with multiple words."
+      }
+    },
+    {
+      "name": "3. Create Duplicate (409 Error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": \"racecar\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/strings/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""]
+        },
+        "description": "Try to create a duplicate string. Should return 409 Conflict."
+      }
+    },
+    {
+      "name": "4. Missing Value Field (400 Error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/strings/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""]
+        },
+        "description": "Missing 'value' field. Should return 400 Bad Request."
+      }
+    },
+    {
+      "name": "5. Invalid Type (422 Error)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"value\": 12345\n}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/strings/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""]
+        },
+        "description": "Invalid data type for value. Should return 422 Unprocessable Entity."
+      }
+    },
+    {
+      "name": "6. Get Specific String",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/racecar",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "racecar"]
+        },
+        "description": "Get a specific string by its value. Should return 200 OK."
+      }
+    },
+    {
+      "name": "7. Get Non-Existent String (404 Error)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/nonexistent",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "nonexistent"]
+        },
+        "description": "Get a non-existent string. Should return 404 Not Found."
+      }
+    },
+    {
+      "name": "8. Get All Strings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""]
+        },
+        "description": "Get all strings without filtering."
+      }
+    },
+    {
+      "name": "9. Filter by Palindrome",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/?is_palindrome=true",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""],
+          "query": [
+            {
+              "key": "is_palindrome",
+              "value": "true"
+            }
+          ]
+        },
+        "description": "Get all palindromic strings."
+      }
+    },
+    {
+      "name": "10. Filter by Word Count",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/?word_count=1",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""],
+          "query": [
+            {
+              "key": "word_count",
+              "value": "1"
+            }
+          ]
+        },
+        "description": "Get all single-word strings."
+      }
+    },
+    {
+      "name": "11. Filter by Length Range",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/?min_length=5&max_length=10",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""],
+          "query": [
+            {
+              "key": "min_length",
+              "value": "5"
+            },
+            {
+              "key": "max_length",
+              "value": "10"
+            }
+          ]
+        },
+        "description": "Get strings between 5 and 10 characters."
+      }
+    },
+    {
+      "name": "12. Filter by Contains Character",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/?contains_character=a",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""],
+          "query": [
+            {
+              "key": "contains_character",
+              "value": "a"
+            }
+          ]
+        },
+        "description": "Get strings containing the letter 'a'."
+      }
+    },
+    {
+      "name": "13. Multiple Filters",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/?is_palindrome=true&word_count=1&min_length=4",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", ""],
+          "query": [
+            {
+              "key": "is_palindrome",
+              "value": "true"
+            },
+            {
+              "key": "word_count",
+              "value": "1"
+            },
+            {
+              "key": "min_length",
+              "value": "4"
+            }
+          ]
+        },
+        "description": "Combine multiple filters."
+      }
+    },
+    {
+      "name": "14. Natural Language - Single Word Palindromes",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/filter-by-natural-language?query=all single word palindromic strings",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "filter-by-natural-language"],
+          "query": [
+            {
+              "key": "query",
+              "value": "all single word palindromic strings"
+            }
+          ]
+        },
+        "description": "Natural language query for single word palindromes."
+      }
+    },
+    {
+      "name": "15. Natural Language - Long Strings",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/filter-by-natural-language?query=strings longer than 10 characters",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "filter-by-natural-language"],
+          "query": [
+            {
+              "key": "query",
+              "value": "strings longer than 10 characters"
+            }
+          ]
+        },
+        "description": "Natural language query for long strings."
+      }
+    },
+    {
+      "name": "16. Natural Language - Contains Letter",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/filter-by-natural-language?query=strings containing the letter z",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "filter-by-natural-language"],
+          "query": [
+            {
+              "key": "query",
+              "value": "strings containing the letter z"
+            }
+          ]
+        },
+        "description": "Natural language query for strings with specific letter."
+      }
+    },
+    {
+      "name": "17. Delete String",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/hello world",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "hello world"]
+        },
+        "description": "Delete a string. Should return 204 No Content."
+      }
+    },
+    {
+      "name": "18. Delete Non-Existent (404 Error)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/strings/nonexistent",
+          "protocol": "http",
+          "host": ["localhost"],
+          "port": "8000",
+          "path": ["strings", "nonexistent"]
+        },
+        "description": "Try to delete non-existent string. Should return 404 Not Found."
+      }
+    }
+  ]
+}
