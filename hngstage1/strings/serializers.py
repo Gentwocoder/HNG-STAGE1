@@ -35,6 +35,17 @@ class CreateStringSerializer(serializers.Serializer):
     
     value = serializers.CharField(allow_blank=True)
     
+    def validate(self, data):
+        """Validate the entire input data before field-level validation."""
+        # Check the raw initial data for type validation
+        if 'value' in self.initial_data:
+            raw_value = self.initial_data['value']
+            if not isinstance(raw_value, str):
+                raise serializers.ValidationError({
+                    'value': 'Value must be a string.'
+                })
+        return data
+    
     def validate_value(self, value):
         """Validate that value is a string."""
         if not isinstance(value, str):
